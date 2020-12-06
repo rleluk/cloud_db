@@ -8,6 +8,5 @@ var driver = neo4j.driver(
         process.env.DB_PASSWORD
     )
 );
-var session = driver.session();
 
-module.exports = session
+module.exports = driver
