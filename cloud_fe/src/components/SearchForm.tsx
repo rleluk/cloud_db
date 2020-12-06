@@ -25,10 +25,8 @@ const SearchForm = (props: Props) => {
             <input type='text' value={producer} onChange={event => setProducer(event.target.value)}/>
             <button 
                 onClick={event => {
-                    if(game && genre && platform && producer) {
-                        event.preventDefault();
-                        props.onSearch(game, genre, platform, producer);
-                    }
+                    event.preventDefault();
+                    props.onSearch(game, genre, platform, producer);
                 }
             }> 
                 Wyszukaj 

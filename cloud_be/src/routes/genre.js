@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
             'MERGE (g: Genre {name: $name})', 
             { name }
         );
-        res.status(204).send();
+        res.status(201).send();
     } catch(err) {
         console.log(err)
         res.status(500).send();

@@ -14,19 +14,19 @@ const runQuery = async (query, params) => {
 };
 
 const parseResponse = (res) => {
+    let result = [];
     if (res.records.length > 0) {
-        let result = [];
         res.records.forEach(record => {
             result.push(record._fields[0].properties);
         }); 
         return result;
     }
-    return undefined;
+    return JSON.stringify(result);
 };
 
 const parseComplexResponse = (res) => {
+    let result = [];
     if (res.records.length > 0) {
-        let result = [];
         res.records.forEach(record => {
             let objects = [];
             for(let i = 0; i < record.length; i++) {
@@ -34,9 +34,8 @@ const parseComplexResponse = (res) => {
             }
             result.push(Object.fromEntries(objects));
         }); 
-        return result;
     }
-    return undefined;
+    return JSON.stringify(result);
 };
 
 module.exports = {
