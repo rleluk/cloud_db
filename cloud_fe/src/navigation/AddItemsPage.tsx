@@ -2,36 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Menu from '../components/Menu';
 import AddItem from '../components/AddItem';
 import AddGame, { ClickConfig } from '../components/AddGame';
+import { getData, postData } from '../services/fetch';
 
 interface Props {}
-
-const postData = (uri: string, body: any) => {
-    fetch(process.env.REACT_APP_URI + uri, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(body)
-        })
-        .then(res => {
-            console.log(res)
-            if (res.status !== 201) {
-                alert('Wystąpił błąd podczas dodawania producenta.');
-            }
-        })
-        .catch(err => console.log(err));
-}
-
-const getData = async (uri) => {
-    let res = await fetch(process.env.REACT_APP_URI + uri)
-        .catch(err => console.log(err));
-    console.log(res)
-    if (res && res.status === 200) {
-        return res.json();
-    } else {
-        alert('Wystąpił błąd podczas pobierania danych.');
-    }
-}
 
 const addProducer = (value: string, setValue: (value: string) => void) => {
     if(window.confirm('Na pewno chcesz dodać nowego wydawcę?')) {
@@ -83,12 +56,9 @@ const AddItemsPage = (props: Props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            let fetchedGenres = await getData('/genre');
-            if (fetchedGenres) setGenres(fetchedGenres);
-            let fetchedProducers = await getData('/producer');
-            if (fetchedProducers) setProducers(fetchedProducers);
-            let fetchedPlatforms = await getData('/platform');
-            if (fetchedPlatforms) setPlatforms(fetchedPlatforms);
+            setGenres(await getData('/genre'));
+            setProducers(await getData('/producer'));
+            setPlatforms(await getData('/platform'));
         }
         fetchData();
     }, []);

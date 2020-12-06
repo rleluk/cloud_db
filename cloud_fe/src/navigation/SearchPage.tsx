@@ -23,8 +23,8 @@ const deleteGame = async (id: string, fetchGames) => {
     if (window.confirm('Na pewno chcesz usunąć grę z katalogu?')) {
         await fetch(process.env.REACT_APP_URI + `/game/${id}`, {method: 'DELETE'})
             .catch(err => console.log(err));
+        fetchGames();
     }
-    fetchGames();
 }
 
 const createTable = (games: Game[], fetchGames) => {
@@ -54,7 +54,7 @@ const createTable = (games: Game[], fetchGames) => {
     });
 
     return (
-        <table key={Math.random()}>
+        <table key={Math.random()} className="SearchTable">
             <thead>
                 <tr>
                     <th>Tytuł gry</th>

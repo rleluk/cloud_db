@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from "react-router-dom";
 import './Menu.css';
 
@@ -12,6 +11,9 @@ const Menu = (props: Props) => {
             </Link>
             <Link to='/create' className='MenuItem'>
                 Stwórz węzły
+            </Link>
+            <Link to='/view' className='MenuItem'>
+                Przeglądaj
             </Link>
         </div>
     );

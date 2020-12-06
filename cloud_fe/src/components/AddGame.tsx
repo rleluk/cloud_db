@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './AddItem.css';
 
 const populateSelect = (data: any) => {
@@ -27,9 +27,9 @@ export interface ClickConfig {
 }
 
 interface Props {
-    genres: string[];
-    platforms: string[];
-    producers: string[];
+    genres: any[];
+    platforms: any[];
+    producers: any[];
     onClick: (clickConfig: ClickConfig) => void;
 }
 
