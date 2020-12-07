@@ -1,4 +1,3 @@
-import './App.css';
 import history from './services/history';
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 

@@ -3,6 +3,7 @@ import Menu from '../components/Menu';
 import AddItem from '../components/AddItem';
 import AddGame, { ClickConfig } from '../components/AddGame';
 import { getData, postData } from '../services/fetch';
+import './AddItemsPage.css';
 
 interface Props {}
 
@@ -66,24 +67,28 @@ const AddItemsPage = (props: Props) => {
     return (
         <div>
             <Menu/>
-            <AddItem
-                buttonValue='Dodaj gatunek'
-                onClick={addGenre}
-            />
-            <AddItem
-                buttonValue='Dodaj wydawcę'
-                onClick={addProducer}
-            />
-            <AddItem
-                buttonValue='Dodaj platformę'
-                onClick={addPlatform}
-            />
-            <AddGame
-                onClick={addGame}
-                genres={genres}
-                platforms={platforms}
-                producers={producers}
-            />
+            <div className='Container'>
+                <div className='AddItems'>
+                    <AddItem
+                        buttonValue='Dodaj gatunek'
+                        onClick={addGenre}
+                    />
+                    <AddItem
+                        buttonValue='Dodaj wydawcę'
+                        onClick={addProducer}
+                    />
+                    <AddItem
+                        buttonValue='Dodaj platformę'
+                        onClick={addPlatform}
+                    />
+                    <AddGame
+                        onClick={addGame}
+                        genres={genres}
+                        platforms={platforms}
+                        producers={producers}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

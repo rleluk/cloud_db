@@ -14,9 +14,20 @@ const deleteRecord = async (name: string, setItems, uri: string) => {
 const createTable = (records: any, setItems: Function, header: string, uri) => {
     if (!records || records.length === 0) {
         return (
-            <div className="NoDataAlert">
-                Brak danych do wyświetlenia.
-            </div>
+            <table key={Math.random()}>
+                <thead>
+                    <tr>
+                        <th>{header}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> 
+                            Brak danych do wyświetlenia.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         );
     }
 
@@ -26,7 +37,7 @@ const createTable = (records: any, setItems: Function, header: string, uri) => {
             <tr key={record.name + Math.random()}>
                 <td>{record.name}</td>
                 <td>
-                    <button onClick={async () => await deleteRecord(record.name, setItems, uri)}>
+                    <button className='DeleteButton' onClick={async () => await deleteRecord(record.name, setItems, uri)}>
                         Usuń rekord
                     </button>
                 </td>
@@ -72,9 +83,13 @@ const ViewItemsPage = (props: Props) => {
     return (
         <div>
             <Menu/>
-            {genresTable}
-            {producersTable}
-            {platformsTable}
+            <div className='Container'>
+                <div className='ViewTables'>
+                    {genresTable}
+                    {producersTable}
+                    {platformsTable}
+                </div>
+            </div>
         </div>
     );
 }

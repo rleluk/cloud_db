@@ -1,0 +1,59 @@
+.ViewTables {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ViewTables table {
+    border-collapse: collapse;
+    width: 20%;
+    margin: 20px auto;
+    box-shadow: 2px 2px 15px -1px #999;
+}
+  
+.ViewTables table td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.ViewTables table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.ViewTables table tr:hover {
+    background-color: #ddd;
+}
+
+.ViewTables table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #7e800a;
+    color: #efefef;
+}
+
+.Container {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.NoDataAlert {
+    font-size: 25px;
+    margin-top: 50px;
+}
+
+.ViewTables table .DeleteButton {
+    border: 1px solid black;
+    height: 30px;
+    font-size: 15px;
+    font-family: arial, sans-serif;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #fff;
+    min-width: 110px;
+}
+
+.SearchTable .DeleteButton:hover {
+    background-color: #fefefe;
+}

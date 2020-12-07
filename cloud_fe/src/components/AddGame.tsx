@@ -5,7 +5,7 @@ const populateSelect = (data: any) => {
     let options = [];
     options.push(
         <option key={Math.random()} value=''>
-            None
+            Wybierz
         </option>
     );
     data.forEach(record => {
@@ -62,45 +62,37 @@ const AddGame = (props: Props) => {
     };
 
     return (
-        <>
-        {
-            (genres && producers && platforms) ? (
-                <div className='AddItem'>
-                    <form>
-                        <input 
-                            type='text' 
-                            value={game}
-                            onChange={event => setGame(event.target.value)}
-                            required
-                        />
-                        <select name='genre' onChange={event => setGenre(event.target.value)} value={genre} required>
-                            {populateSelect(genres)}
-                        </select>
-                        <select name='platform' onChange={event => setPlatform(event.target.value)} value={platform} required>
-                            {populateSelect(platforms)}
-                        </select>
-                        <select name='producer' onChange={event => setProducer(event.target.value)} value={producer} required>
-                            {populateSelect(producers)}
-                        </select>
-                        <button 
-                            onClick={event => {
-                                if (game && genre && platform && producer) {
-                                    event.preventDefault();
-                                    props.onClick({
-                                        game, genre, platform, producer, resetValues
-                                    });
-                                }
-                            }
-                        }>
-                            Wybierz grę
-                        </button>
-                    </form>
-                </div>
-            ) : (
-                undefined
-            )
-        }
-        </>
+        <div className='AddItem'>
+            <form>
+                <input 
+                    type='text' 
+                    value={game}
+                    onChange={event => setGame(event.target.value)}
+                    required
+                />
+                <select name='genre' onChange={event => setGenre(event.target.value)} value={genre} required>
+                    { genres ? populateSelect(genres) : undefined }
+                </select>
+                <select name='platform' onChange={event => setPlatform(event.target.value)} value={platform} required>
+                    { platforms ? populateSelect(platforms) : undefined }
+                </select>
+                <select name='producer' onChange={event => setProducer(event.target.value)} value={producer} required>
+                    { producers ? populateSelect(producers) : undefined }
+                </select>
+                <button 
+                    onClick={event => {
+                        if (game && genre && platform && producer) {
+                            event.preventDefault();
+                            props.onClick({
+                                game, genre, platform, producer, resetValues
+                            });
+                        }
+                    }
+                }>
+                    Dodaj grę
+                </button>
+            </form>
+        </div>
     );
 }
 

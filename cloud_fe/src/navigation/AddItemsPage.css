@@ -1,0 +1,7 @@
+.AddItems {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0 50px;
+    flex-wrap: wrap;
+}

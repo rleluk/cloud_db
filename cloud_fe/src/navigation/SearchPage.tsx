@@ -30,9 +30,23 @@ const deleteGame = async (id: string, fetchGames) => {
 const createTable = (games: Game[], fetchGames) => {
     if (!games || games.length === 0) {
         return (
-            <div className="NoDataAlert">
-                Brak danych do wyświetlenia.
-            </div>
+            <table key={Math.random()} className="SearchTable">
+                <thead>
+                    <tr>
+                        <th>Tytuł gry</th>
+                        <th>Gatunek</th>
+                        <th>Wydawca</th>
+                        <th>Platforma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colSpan={4} style={{textAlign: 'center'}} className='NoDataAlert'>
+                            Brak danych do wyświetlenia.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         );
     }
 
@@ -45,7 +59,7 @@ const createTable = (games: Game[], fetchGames) => {
                 <td>{record.producer.name}</td>
                 <td>{record.platform.name}</td>
                 <td>
-                    <button onClick={async () => await deleteGame(record.game.id, fetchGames)}>
+                    <button className='DeleteButton' onClick={async () => await deleteGame(record.game.id, fetchGames)}>
                         Usuń rekord
                     </button>
                 </td>
@@ -91,8 +105,10 @@ const SearchPage = (props: Props) => {
     return (
         <div>
             <Menu/>
-            <SearchForm onSearch={fetchGames}/>
-            {createTable(games, fetchGames)}
+            <div className='Container'>
+                <SearchForm onSearch={fetchGames}/>
+                {createTable(games, fetchGames)}
+            </div>
         </div>
     );
 }

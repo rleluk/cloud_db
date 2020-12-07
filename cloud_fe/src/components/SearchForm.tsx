@@ -1,3 +1,4 @@
+import './SearchForm.css'
 import { useState } from 'react';
 
 interface Props {
@@ -18,27 +19,32 @@ const SearchForm = (props: Props) => {
     };
 
     return (
-        <form className="SearchForm">
-            <input type='text' value={game} onChange={event => setGame(event.target.value)}/>
-            <input type='text' value={genre} onChange={event => setGenre(event.target.value)}/>
-            <input type='text' value={platform} onChange={event => setPlatform(event.target.value)}/>
-            <input type='text' value={producer} onChange={event => setProducer(event.target.value)}/>
-            <button 
-                onClick={event => {
-                    event.preventDefault();
-                    props.onSearch(game, genre, platform, producer);
-                }
-            }> 
-                Wyszukaj 
-            </button>
-            <button 
-                onClick={event => {
-                    event.preventDefault();
-                    resetValues();
-                }
-            }>
-                Wyczyść
-            </button>
+        <form className='SearchForm'>
+            <div>
+                <input placeholder='Tytuł gry' type='text' value={game} onChange={event => setGame(event.target.value)}/>
+                <input placeholder='Rodzaj' type='text' value={genre} onChange={event => setGenre(event.target.value)}/>
+                <input placeholder='Wydawca' type='text' value={producer} onChange={event => setProducer(event.target.value)}/>
+                <input placeholder='Platforma' type='text' value={platform} onChange={event => setPlatform(event.target.value)}/>
+            </div>
+            <div>
+                <button 
+                    onClick={event => {
+                        event.preventDefault();
+                        props.onSearch(game, genre, platform, producer);
+                    }
+                }> 
+                    Wyszukaj 
+                </button>
+                <button 
+                    onClick={event => {
+                        event.preventDefault();
+                        resetValues();
+                        props.onSearch('', '', '', '');
+                    }
+                }>
+                    Wyczyść
+                </button>
+            </div>
         </form>
     );
 }
