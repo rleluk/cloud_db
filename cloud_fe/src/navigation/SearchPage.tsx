@@ -7,6 +7,7 @@ interface Game {
     game: {
         id: string;
         name: string;
+        productionYear: number;
     }
     genre: {
         name: string;
@@ -37,11 +38,12 @@ const createTable = (games: Game[], fetchGames) => {
                         <th>Gatunek</th>
                         <th>Wydawca</th>
                         <th>Platforma</th>
+                        <th>Rok wydania</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colSpan={4} style={{textAlign: 'center'}} className='NoDataAlert'>
+                        <td colSpan={5} style={{textAlign: 'center'}} className='NoDataAlert'>
                             Brak danych do wyświetlenia.
                         </td>
                     </tr>
@@ -58,6 +60,7 @@ const createTable = (games: Game[], fetchGames) => {
                 <td>{record.genre.name}</td>
                 <td>{record.producer.name}</td>
                 <td>{record.platform.name}</td>
+                <td>{record.game.productionYear}</td>
                 <td>
                     <button className='DeleteButton' onClick={async () => await deleteGame(record.game.id, fetchGames)}>
                         Usuń rekord
@@ -75,6 +78,7 @@ const createTable = (games: Game[], fetchGames) => {
                     <th>Gatunek</th>
                     <th>Wydawca</th>
                     <th>Platforma</th>
+                    <th>Rok wydania</th>
                     <th></th>
                 </tr>
             </thead>
@@ -90,8 +94,8 @@ interface Props {}
 const SearchPage = (props: Props) => {
     const [games, setGames] = useState<Game[]>();
 
-    const fetchGames = (game = '', genre = '', platform = '', producer = '') => {
-        const query = `/game/?name=${game}&genre=${genre}&producer=${producer}&platform=${platform}`
+    const fetchGames = (game = '', genre = '', platform = '', producer = '', fromYear = '', toYear = '') => {
+        const query = `/game/?name=${game}&genre=${genre}&producer=${producer}&platform=${platform}&fromYear=${fromYear}&toYear=${toYear}`
         fetch(process.env.REACT_APP_URI + query)
             .then(res => res.json())
             .then(data => setGames(data))

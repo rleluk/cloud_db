@@ -43,7 +43,8 @@ const addGame = (clickConfig: ClickConfig) => {
             name: clickConfig.game,
             genre: clickConfig.genre,
             platform: clickConfig.platform,
-            producer: clickConfig.producer
+            producer: clickConfig.producer,
+            productionYear: clickConfig.productionYear
         }
         postData('/game', body);
         clickConfig.resetValues();
@@ -72,14 +73,17 @@ const AddItemsPage = (props: Props) => {
                     <AddItem
                         buttonValue='Dodaj gatunek'
                         onClick={addGenre}
+                        placeholder={'Nazwa gatunku'}
                     />
                     <AddItem
                         buttonValue='Dodaj wydawcę'
                         onClick={addProducer}
+                        placeholder={'Nazwa wydawcy'}
                     />
                     <AddItem
                         buttonValue='Dodaj platformę'
                         onClick={addPlatform}
+                        placeholder={'Nazwa platformy'}
                     />
                     <AddGame
                         onClick={addGame}

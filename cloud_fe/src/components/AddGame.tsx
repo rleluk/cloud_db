@@ -23,6 +23,7 @@ export interface ClickConfig {
     genre: string;
     platform: string;
     producer: string;
+    productionYear: string;
     resetValues: () => void;
 }
 
@@ -38,6 +39,7 @@ const AddGame = (props: Props) => {
     const [genre, setGenre] = useState('');
     const [platform, setPlatform] = useState('');
     const [producer, setProducer] = useState('');
+    const [productionYear, setProductionYear] = useState('');
     const [genres, setGenres] = useState<any>();
     const [producers, setProducers] = useState<any>();
     const [platforms, setPlatforms] = useState<any>();
@@ -59,16 +61,28 @@ const AddGame = (props: Props) => {
         setGenre('');
         setPlatform('');
         setProducer('');
+        setProductionYear('');
     };
 
     return (
         <div className='AddItem'>
             <form>
                 <input 
+
                     type='text' 
                     value={game}
                     onChange={event => setGame(event.target.value)}
                     required
+                    placeholder={'Tytuł gry'}
+                />
+                <input 
+                    type='text' 
+                    value={productionYear}
+                    onChange={event => setProductionYear(event.target.value)}
+                    required
+                    placeholder='Rok produkcji'
+                    pattern='\d+'
+                    style={{marginTop: 10}}
                 />
                 <select name='genre' onChange={event => setGenre(event.target.value)} value={genre} required>
                     { genres ? populateSelect(genres) : undefined }
@@ -81,10 +95,10 @@ const AddGame = (props: Props) => {
                 </select>
                 <button 
                     onClick={event => {
-                        if (game && genre && platform && producer) {
+                        if (game && genre && platform && producer && productionYear && !isNaN(parseInt(productionYear))) {
                             event.preventDefault();
                             props.onClick({
-                                game, genre, platform, producer, resetValues
+                                game, genre, platform, producer, resetValues, productionYear
                             });
                         }
                     }

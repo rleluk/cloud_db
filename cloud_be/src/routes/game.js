@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { runQuery, parseComplexResponse } = require('../utils/runQuery');
 const uuid = require('uuid');
+const { int } = require('neo4j-driver');
 
 router.get('/', async (req, res) => {
-    let { name, genre, producer, platform } = req.query;
+    let { name, genre, producer, platform, toYear, fromYear } = req.query;
     try {
+        let queryYear = '';
+        if (toYear) {
+            queryYear += `AND game.productionYear <= $toYear\n`;
+        } 
+        if (fromYear) {
+            queryYear += `AND game.productionYear >= $fromYear`;
+        }
+
         const result = await runQuery(
             `MATCH (game:Game)-[:HAS_GENRE]->(genre:Genre), 
                 (game:Game)-[:PRODUCED_BY]->(producer:Producer), 
@@ -14,8 +23,9 @@ router.get('/', async (req, res) => {
                 AND producer.name CONTAINS $producer
                 AND platform.name CONTAINS $platform
                 AND genre.name CONTAINS $genre
-            RETURN game, genre, producer, platform `,
-            { name, producer, platform, genre }
+                ${queryYear}
+            RETURN game, genre, producer, platform`,
+            { name, producer, platform, genre, fromYear: parseInt(fromYear), toYear: parseInt(toYear) }
         );
         res.status(200).send(parseComplexResponse(result));
     } catch(err) {
@@ -25,7 +35,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { name, genre, producer, platform } = req.body;
+    const { name, genre, producer, platform, productionYear } = req.body;
     if (!name && !genre && !producer && !platform) {
         return res.status(400).send(
             JSON.stringify({ message: 'Unable to create game record without enough data.' })
@@ -35,8 +45,8 @@ router.post('/', async (req, res) => {
     try {
         const gameID = uuid.v4();
         await runQuery(
-            'CREATE (g:Game {id: $id, name: $name})',
-            { id: gameID, name }
+            'CREATE (g:Game {id: $id, name: $name, productionYear: $productionYear})',
+            { id: gameID, name, productionYear }
         );
         await runQuery(
             `MATCH (g:Game {id: $id, name: $name}), (ge:Genre {name: $genre})

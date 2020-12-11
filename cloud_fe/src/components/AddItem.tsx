@@ -3,6 +3,7 @@ import './AddItem.css';
 
 interface Props {
     buttonValue: string;
+    placeholder: string;
     onClick: (value, setValue) => void;
 }
 
@@ -17,6 +18,7 @@ const AddItem = (props: Props) => {
                     value={value}
                     onChange={event => setValue(event.target.value)}
                     required
+                    placeholder={props.placeholder}
                 />
                 <button 
                     onClick={event => {
