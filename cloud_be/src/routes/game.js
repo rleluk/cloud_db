@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { runQuery, parseComplexResponse } = require('../utils/runQuery');
 const uuid = require('uuid');
-const { int } = require('neo4j-driver');
 
 router.get('/', async (req, res) => {
     let { name, genre, producer, platform, toYear, fromYear } = req.query;
@@ -14,7 +13,7 @@ router.get('/', async (req, res) => {
         if (fromYear) {
             queryYear += `AND game.productionYear >= $fromYear`;
         }
-
+        
         const result = await runQuery(
             `MATCH (game:Game)-[:HAS_GENRE]->(genre:Genre), 
                 (game:Game)-[:PRODUCED_BY]->(producer:Producer), 
@@ -25,7 +24,7 @@ router.get('/', async (req, res) => {
                 AND genre.name CONTAINS $genre
                 ${queryYear}
             RETURN game, genre, producer, platform`,
-            { name, producer, platform, genre, fromYear: parseInt(fromYear), toYear: parseInt(toYear) }
+            { name, producer, platform, genre, fromYear: fromYear, toYear: toYear }
         );
         res.status(200).send(parseComplexResponse(result));
     } catch(err) {
