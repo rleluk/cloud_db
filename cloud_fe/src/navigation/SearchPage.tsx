@@ -5,7 +5,6 @@ import './SearchPage.css';
 
 interface Game {
     game: {
-        id: string;
         name: string;
         productionYear: number;
     }
@@ -20,9 +19,9 @@ interface Game {
     }
 }
 
-const deleteGame = async (id: string, fetchGames) => {
+const deleteGame = async (name: string, fetchGames) => {
     if (window.confirm('Na pewno chcesz usunąć grę z katalogu?')) {
-        await fetch(process.env.REACT_APP_URI + `/game/${id}`, {method: 'DELETE'})
+        await fetch(process.env.REACT_APP_URI + `/game/${name}`, {method: 'DELETE'})
             .catch(err => console.log(err));
         fetchGames();
     }
@@ -62,7 +61,7 @@ const createTable = (games: Game[], fetchGames) => {
                 <td>{record.platform.name}</td>
                 <td>{record.game.productionYear}</td>
                 <td>
-                    <button className='DeleteButton' onClick={async () => await deleteGame(record.game.id, fetchGames)}>
+                    <button className='DeleteButton' onClick={async () => await deleteGame(record.game.name, fetchGames)}>
                         Usuń rekord
                     </button>
                 </td>

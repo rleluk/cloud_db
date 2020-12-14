@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { runQuery, parseComplexResponse } = require('../utils/runQuery');
-const uuid = require('uuid');
 
 router.get('/', async (req, res) => {
     let { name, genre, producer, platform, toYear, fromYear } = req.query;
@@ -42,25 +41,24 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const gameID = uuid.v4();
         await runQuery(
-            'CREATE (g:Game {id: $id, name: $name, productionYear: $productionYear})',
-            { id: gameID, name, productionYear }
+            'MERGE (g:Game {name: $name, productionYear: $productionYear})',
+            { name, productionYear }
         );
         await runQuery(
-            `MATCH (g:Game {id: $id, name: $name}), (ge:Genre {name: $genre})
-             CREATE (g)-[:HAS_GENRE]->(ge)`, 
-             { id: gameID, name, genre }
+            `MATCH (g:Game {name: $name}), (ge:Genre {name: $genre})
+             MERGE (g)-[:HAS_GENRE]->(ge)`, 
+             { name, genre }
         )
         await runQuery(
-            `MATCH (g:Game {id: $id, name: $name}), (p:Platform {name: $platform})
-            CREATE (g)-[:ON_PLATFORM]->(p)`, 
-             { id: gameID, name, platform }
+            `MATCH (g:Game {name: $name}), (p:Platform {name: $platform})
+            MERGE (g)-[:ON_PLATFORM]->(p)`, 
+             { name, platform }
         )
         await runQuery(
-            `MATCH (g:Game {id: $id, name: $name}), (p:Producer {name: $producer})
-            CREATE (g)-[:PRODUCED_BY]->(p)`, 
-             { id: gameID, name, producer }
+            `MATCH (g:Game {name: $name}), (p:Producer {name: $producer})
+            MERGE (g)-[:PRODUCED_BY]->(p)`, 
+             { name, producer }
         )
         res.status(201).send();
     } catch(err) {
@@ -69,18 +67,18 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-    if (!id) {
+router.delete('/:name', async (req, res) => {
+    const { name } = req.params;
+    if (!name) {
         return res.status(400).send(
-            JSON.stringify({ message: 'No game ID.' })
+            JSON.stringify({ message: 'No game name.' })
         )
     }
 
     try {
         await runQuery(
-            'MATCH (g:Game {id: $id}) DETACH DELETE g',
-            { id }
+            'MATCH (g:Game {name: $name}) DETACH DELETE g',
+            { name }
         );
         res.status(204).send();
     } catch(err) {
