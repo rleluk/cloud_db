@@ -35,7 +35,7 @@ const SearchForm = (props: Props) => {
             <div>
                 <button 
                     onClick={event => {
-                        if (!isNaN(parseInt(toProdYear)) || !isNaN(parseInt(fromProdYear))) {
+                        if ((!isNaN(parseInt(toProdYear)) || toProdYear === '') && (!isNaN(parseInt(fromProdYear)) || fromProdYear === '')) {
                             event.preventDefault();
                             props.onSearch(game, genre, platform, producer, fromProdYear, toProdYear);
                         }
