@@ -1,3 +1,4 @@
+const { query } = require('express');
 const express = require('express');
 const router = express.Router();
 const { runQuery, parseComplexResponse } = require('../utils/runQuery');
@@ -7,12 +8,12 @@ router.get('/', async (req, res) => {
     try {
         let queryYear = '';
         if (toYear) {
-            queryYear += `AND game.productionYear <= $toYear\n`;
+            queryYear += `AND toInteger(game.productionYear) <= ${Number(toYear)}\n`;
         } 
         if (fromYear) {
-            queryYear += `AND game.productionYear >= $fromYear`;
+            queryYear += `AND toInteger(game.productionYear) >= ${Number(fromYear)}`;
         }
-        
+
         const result = await runQuery(
             `MATCH (game:Game)-[:HAS_GENRE]->(genre:Genre), 
                 (game:Game)-[:PRODUCED_BY]->(producer:Producer), 
@@ -23,7 +24,7 @@ router.get('/', async (req, res) => {
                 AND genre.name CONTAINS $genre
                 ${queryYear}
             RETURN game, genre, producer, platform`,
-            { name, producer, platform, genre, fromYear: fromYear, toYear: toYear }
+            { name, producer, platform, genre }
         );
         res.status(200).send(parseComplexResponse(result));
     } catch(err) {
